@@ -45,11 +45,10 @@ impl RayTracingApp {
 
 impl eframe::App for RayTracingApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        egui::Window::new("Settings")
-            .anchor(Align2::RIGHT_TOP, Vec2::new(-5.0, 5.0))
+        egui::SidePanel::right("sd")
             .resizable(false)
-            .movable(false)
             .show(ctx, |ui| {
+                ui.add_space(5.0);
                 if ui
                     .add_sized([200.0, 40.0], egui::Button::new("Render"))
                     .clicked()
