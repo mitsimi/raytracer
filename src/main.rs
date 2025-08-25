@@ -64,28 +64,31 @@ impl eframe::App for RayTracingApp {
                 }
             });
 
-        egui::Window::new("Render Output")
-            .default_size(Vec2::new(480.0, 270.0))
-            .title_bar(false)
-            .resizable(true)
-            .collapsible(false)
-            .scroll(true)
-            .show(ctx, |ui| {
-                self.update_viewport_size(ui.available_width(), ui.available_height());
+        egui::CentralPanel::default().show(ctx, |ui| {
+            let panel_rect = ui.max_rect();
 
-                if let Some(texture) = &self.texture {
-                    let [width, height] = texture.size().map(|x| x as f32);
-                    let size = egui::vec2(width, height);
-                    ui.image((texture.id(), size));
+            egui::Window::new("Render Output")
+                .default_size(Vec2::new(480.0, 270.0))
+                .max_size(panel_rect.size() - Vec2::new(20.0, 50.0))
+                .constrain_to(panel_rect)
+                .resizable(true)
+                .collapsible(false)
+                .scroll(true)
+                .show(ctx, |ui| {
+                    self.update_viewport_size(ui.available_width(), ui.available_height());
 
-                    ui.add_space(ui.available_height());
-                } else {
-                    ui.centered_and_justified(|ui| {
-                        ui.label("Click Render to start.");
-                    });
-                }
-            });
+                    if let Some(texture) = &self.texture {
+                        let [width, height] = texture.size().map(|x| x as f32);
+                        let size = egui::vec2(width, height);
+                        ui.image((texture.id(), size));
 
-        egui::CentralPanel::default().show(ctx, |_ui| {});
+                        ui.add_space(ui.available_height());
+                    } else {
+                        ui.centered_and_justified(|ui| {
+                            ui.label("Click Render to start.");
+                        });
+                    }
+                });
+        });
     }
 }
