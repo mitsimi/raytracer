@@ -25,12 +25,12 @@ struct RayTracingApp {
 impl RayTracingApp {
     fn render(&self) -> Vec<Color32> {
         let mut pixels = Vec::with_capacity(self.viewport_height * self.viewport_width);
-        for _y in 0..self.viewport_height {
-            for _x in 0..self.viewport_width {
+        for y in 0..self.viewport_height {
+            for x in 0..self.viewport_width {
                 pixels.push(Color32::from_rgb(
-                    rand::random::<u8>(),
-                    rand::random::<u8>(),
-                    rand::random::<u8>(),
+                    (255 * x / self.viewport_width) as u8,
+                    (255 * y / self.viewport_height) as u8,
+                    0,
                 ));
             }
         }
